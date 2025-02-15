@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Download } from "lucide-react"
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Download } from "lucide-react";
 
 export default function IdeaValidationPage() {
   const [ideaDetails, setIdeaDetails] = useState({
@@ -15,42 +15,42 @@ export default function IdeaValidationPage() {
     problemStatement: "",
     targetAudience: "",
     businessModel: "",
-  })
-  const [analysis, setAnalysis] = useState(null)
+  });
+  const [analysis, setAnalysis] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setIdeaDetails((prev) => ({ ...prev, [name]: value }))
-  }
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setIdeaDetails((prev) => ({ ...prev, [name]: value }));
+  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    // Here you would typically make an API call to your AI service
-    // For demonstration, we'll use mock data
-    const mockAnalysis = {
-      viabilityScore: 75,
-      marketResearch: "The target market shows significant growth potential...",
-      competitorAnalysis: "Main competitors include X, Y, and Z...",
-      businessRecommendations: "Consider focusing on unique value proposition...",
-      swot: {
-        strengths: ["Innovative solution", "Strong team"],
-        weaknesses: ["Limited initial funding", "New to market"],
-        opportunities: ["Growing market demand", "Potential partnerships"],
-        threats: ["Established competitors", "Regulatory challenges"],
-      },
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/gemini", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(ideaDetails),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch Gemini response.");
+      }
+
+      const data = await response.json();
+      setAnalysis(data);
+    } catch (error) {
+      console.error("Error fetching analysis:", error);
+    } finally {
+      setIsLoading(false);
     }
-    setAnalysis(mockAnalysis)
-  }
-
-  const handleDownloadPDF = () => {
-    // Implement PDF download logic here
-    console.log("Downloading PDF...")
-  }
+  };
 
   return (
     <div className="space-y-6 p-6">
       <h1 className="text-3xl font-bold">Idea Validation</h1>
-
       <form onSubmit={handleSubmit} className="space-y-4">
         <Card>
           <CardHeader>
@@ -59,46 +59,22 @@ export default function IdeaValidationPage() {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="startupName">Startup Name</Label>
-              <Input
-                id="startupName"
-                name="startupName"
-                value={ideaDetails.startupName}
-                onChange={handleInputChange}
-                required
-              />
+              <Input id="startupName" name="startupName" value={ideaDetails.startupName} onChange={handleInputChange} required />
             </div>
             <div className="space-y-2">
               <Label htmlFor="problemStatement">Problem Statement</Label>
-              <Textarea
-                id="problemStatement"
-                name="problemStatement"
-                value={ideaDetails.problemStatement}
-                onChange={handleInputChange}
-                required
-              />
+              <Textarea id="problemStatement" name="problemStatement" value={ideaDetails.problemStatement} onChange={handleInputChange} required />
             </div>
             <div className="space-y-2">
               <Label htmlFor="targetAudience">Target Audience</Label>
-              <Input
-                id="targetAudience"
-                name="targetAudience"
-                value={ideaDetails.targetAudience}
-                onChange={handleInputChange}
-                required
-              />
+              <Input id="targetAudience" name="targetAudience" value={ideaDetails.targetAudience} onChange={handleInputChange} required />
             </div>
             <div className="space-y-2">
               <Label htmlFor="businessModel">Business Model</Label>
-              <Textarea
-                id="businessModel"
-                name="businessModel"
-                value={ideaDetails.businessModel}
-                onChange={handleInputChange}
-                required
-              />
+              <Textarea id="businessModel" name="businessModel" value={ideaDetails.businessModel} onChange={handleInputChange} required />
             </div>
-            <Button type="submit" className="w-full">
-              Generate Analysis
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? "Generating Analysis..." : "Generate Analysis"}
             </Button>
           </CardContent>
         </Card>
@@ -157,47 +133,21 @@ export default function IdeaValidationPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  <TableRow>
-                    <TableCell>
+                  {["strengths", "weaknesses", "opportunities", "threats"].map((key) => (
+                    <TableCell key={key}>
                       <ul>
-                        {analysis.swot.strengths.map((item, index) => (
+                        {analysis.swot[key].map((item: string, index: number) => (
                           <li key={index}>{item}</li>
                         ))}
                       </ul>
                     </TableCell>
-                    <TableCell>
-                      <ul>
-                        {analysis.swot.weaknesses.map((item, index) => (
-                          <li key={index}>{item}</li>
-                        ))}
-                      </ul>
-                    </TableCell>
-                    <TableCell>
-                      <ul>
-                        {analysis.swot.opportunities.map((item, index) => (
-                          <li key={index}>{item}</li>
-                        ))}
-                      </ul>
-                    </TableCell>
-                    <TableCell>
-                      <ul>
-                        {analysis.swot.threats.map((item, index) => (
-                          <li key={index}>{item}</li>
-                        ))}
-                      </ul>
-                    </TableCell>
-                  </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </CardContent>
           </Card>
-
-          <Button onClick={handleDownloadPDF} className="w-full">
-            <Download className="mr-2 h-4 w-4" /> Download PDF Report
-          </Button>
         </div>
       )}
     </div>
-  )
+  );
 }
-

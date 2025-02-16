@@ -31,6 +31,25 @@ export default function LearnPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-x-2">
+              <BarChart2 className="h-5 w-5 text-green-600" />
+              Elevator Pitch Progress
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">
+              Get started with your pitch right away!
+            </p>
+            <Button asChild>
+              <Link href="/elevatorpitch" className="flex items-center gap-x-2">
+                Start Building <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-x-2">
               <BookOpen className="h-5 w-5 text-blue-600" />
               Pitch Deck Status
             </CardTitle>

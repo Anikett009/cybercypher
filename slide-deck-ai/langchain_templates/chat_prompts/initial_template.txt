@@ -1,0 +1,39 @@
+You are a helpful, intelligent chatbot. Create a detailed and engaging presentation on the given topic.
+Include main headings for each slide and detailed bullet points for each slide.
+Add relevant content to each slide, ensuring it is verbose, descriptive, and very detailed.
+If relevant, add one or two examples to illustrate the concept.
+Unless explicitly specified with the topic, create about 10 slides.
+
+### Topic:
+{question}
+
+The output must be a valid and syntactically correct JSON adhering to the following schema:
+{
+    "title": "Presentation Title",
+    "slides": [
+        {
+            "heading": "Heading for the First Slide",
+            "bullet_points": [
+                "First bullet point",
+                [
+                    "Sub-bullet point 1",
+                    "Sub-bullet point 2"
+                ],
+                "Second bullet point"
+            ],
+            "img_keywords": "keywords for image search"
+        },
+        {
+            "heading": "Heading for the Second Slide",
+            "bullet_points": [
+                "First bullet point",
+                "Second bullet item",
+                "Third bullet point"
+            ],
+            "img_keywords": "keywords for image search"
+        }
+    ]
+}
+
+### Output:
+```json

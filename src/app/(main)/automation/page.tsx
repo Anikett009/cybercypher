@@ -142,7 +142,7 @@ export default function AutomationPage() {
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Available Hours</label>
+                  <label className="text-md font-medium">Available Hours</label>
                   <Select>
                     <SelectTrigger>
                       <SelectValue placeholder="Select hours" />
@@ -155,7 +155,7 @@ export default function AutomationPage() {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Meeting Duration</label>
+                  <label className="text-md font-medium">Meeting Duration</label>
                   <Select>
                     <SelectTrigger>
                       <SelectValue placeholder="Select duration" />
@@ -171,7 +171,7 @@ export default function AutomationPage() {
 
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="text-sm font-medium">Buffer Time Between Meetings</label>
+                  <label className="text-md font-medium">Buffer Time Between Meetings</label>
                   <Switch />
                 </div>
                 <Select disabled>
@@ -188,7 +188,7 @@ export default function AutomationPage() {
 
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="text-sm font-medium">Automatic Meeting Reminders</label>
+                  <label className="text-md font-medium">Automatic Meeting Reminders</label>
                   <Switch />
                 </div>
                 <Select disabled>

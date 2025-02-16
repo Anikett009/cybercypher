@@ -1,38 +1,72 @@
+"use client";
+
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  Mail, 
-  Calendar, 
-  MessageSquare, 
-  Plus,
-  Clock,
-  Edit,
-  Trash2,
-  Save
-} from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Mail, Calendar, MessageSquare, Plus, Bot } from "lucide-react";
 
 export default function AutomationPage() {
+  const [emailDetails, setEmailDetails] = useState({
+    recipient: "",
+    subject: "",
+    body: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [responseMessage, setResponseMessage] = useState("");
+  const [chatInput, setChatInput] = useState("");
+  const [chatResponse, setChatResponse] = useState("");
+  const [startupQuestion, setStartupQuestion] = useState("");
+  const [startupAdvice, setStartupAdvice] = useState(null);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setEmailDetails((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleEmailSubmit = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(emailDetails),
+      });
+      const data = await response.json();
+      setResponseMessage(data.message || "Email sent successfully!");
+    } catch (error) {
+      setResponseMessage("Failed to send email.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleStartupAdviceSubmit = async () => {
+    if (!startupQuestion) return;
+    setStartupAdvice(null);
+    setResponseMessage("Fetching advice...");
+    try {
+      const response = await fetch("/api/chatbot", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: startupQuestion }),
+      });
+      const data = await response.json();
+      setStartupAdvice(data);
+    } catch (error) {
+      setResponseMessage("Error fetching advice");
+    }
+  };
+
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Automation Hub</h1>
-        <Button>
-          <Plus className="mr-2 h-4 w-4" />
-          New Automation
-        </Button>
-      </div>
+    <div className="space-y-6 p-6">
+      <h1 className="text-3xl font-bold">Automation Hub</h1>
 
       <Tabs defaultValue="email" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="email">
             <Mail className="mr-2 h-4 w-4" />
             Email Automation
@@ -45,183 +79,58 @@ export default function AutomationPage() {
             <Calendar className="mr-2 h-4 w-4" />
             Calendar Management
           </TabsTrigger>
+          <TabsTrigger value="chatbot">
+            <Bot className="mr-2 h-4 w-4" />
+            Chatbot
+          </TabsTrigger>
         </TabsList>
 
         {/* Email Automation Tab */}
         <TabsContent value="email" className="space-y-4 mt-6">
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span className="flex items-center gap-x-2">
-                  <Mail className="h-5 w-5 text-blue-600" />
-                  Investor Follow-up Sequence
-                </span>
-                <Switch />
-              </CardTitle>
+              <CardTitle>Email Automation</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex items-center justify-between p-4 border rounded-lg">
-                <div className="flex items-center gap-x-3">
-                  <Clock className="h-5 w-5 text-gray-500" />
-                  <div>
-                    <p className="font-medium">Day 1: Initial Follow-up</p>
-                    <p className="text-sm text-muted-foreground">
-                      Sent 24 hours after pitch meeting
-                    </p>
-                  </div>
-                </div>
-                <div className="flex gap-x-2">
-                  <Button variant="ghost" size="icon">
-                    <Edit className="h-4 w-4" />
-                  </Button>
-                  <Button variant="ghost" size="icon">
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
+              <Label>Recipient Email</Label>
+              <Input name="recipient" value={emailDetails.recipient} onChange={handleInputChange} required />
 
-              <Button className="w-full" variant="outline">
-                <Plus className="mr-2 h-4 w-4" />
-                Add Email Step
+              <Label>Subject</Label>
+              <Input name="subject" value={emailDetails.subject} onChange={handleInputChange} required />
+
+              <Label>Body</Label>
+              <Textarea name="body" value={emailDetails.body} onChange={handleInputChange} required />
+
+              <Button onClick={handleEmailSubmit} className="w-full" disabled={isLoading}>
+                {isLoading ? "Sending..." : "Send Email"}
               </Button>
+              {responseMessage && <p className="text-center text-sm font-medium mt-2">{responseMessage}</p>}
             </CardContent>
           </Card>
         </TabsContent>
 
-        {/* Reply Templates Tab */}
-        <TabsContent value="replies" className="space-y-4 mt-6">
+        {/* Chatbot Tab */}
+        <TabsContent value="chatbot" className="space-y-4 mt-6">
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span className="flex items-center gap-x-2">
-                  <MessageSquare className="h-5 w-5 text-green-600" />
-                  Quick Reply Templates
-                </span>
-                <Button variant="outline">
-                  <Plus className="mr-2 h-4 w-4" />
-                  New Template
-                </Button>
-              </CardTitle>
+              <CardTitle>Startup Guidance</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="border rounded-lg p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-medium">Meeting Confirmation</h3>
-                  <div className="flex gap-x-2">
-                    <Button variant="ghost" size="icon">
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="icon">
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
+              <Label>Ask for startup advice from the greats</Label>
+              <Input value={startupQuestion} onChange={(e) => setStartupQuestion(e.target.value)} placeholder="Ask about startup challenges..." />
+              <Button onClick={handleStartupAdviceSubmit}>Get Advice</Button>
+              {startupAdvice && (
+                <div className="p-4 bg-gray-100 border rounded-lg text-sm space-y-4">
+                  <p className="font-bold">{startupAdvice.guidance}</p>
+                  <ul className="list-disc pl-5">
+                    {startupAdvice.citations.map((citation, index) => (
+                      <li key={index}>
+                        <strong>{citation.book}</strong> (Page {citation.page}): {citation.anecdote}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <p className="text-sm text-muted-foreground">
-                  Thank you for scheduling a meeting. I confirm our appointment for...
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Calendar Management Tab */}
-        <TabsContent value="calendar" className="space-y-4 mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span className="flex items-center gap-x-2">
-                  <Calendar className="h-5 w-5 text-purple-600" />
-                  Meeting Preferences
-                </span>
-                <Button variant="outline">
-                  <Save className="mr-2 h-4 w-4" />
-                  Save Changes
-                </Button>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-md font-medium">Available Hours</label>
-                  <Select>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select hours" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="9-5">9 AM - 5 PM</SelectItem>
-                      <SelectItem value="10-6">10 AM - 6 PM</SelectItem>
-                      <SelectItem value="custom">Custom Hours</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-md font-medium">Meeting Duration</label>
-                  <Select>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select duration" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="15">15 minutes</SelectItem>
-                      <SelectItem value="30">30 minutes</SelectItem>
-                      <SelectItem value="60">1 hour</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <label className="text-md font-medium">Buffer Time Between Meetings</label>
-                  <Switch />
-                </div>
-                <Select disabled>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select buffer time" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="5">5 minutes</SelectItem>
-                    <SelectItem value="10">10 minutes</SelectItem>
-                    <SelectItem value="15">15 minutes</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <label className="text-md font-medium">Automatic Meeting Reminders</label>
-                  <Switch />
-                </div>
-                <Select disabled>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select reminder time" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="1h">1 hour before</SelectItem>
-                    <SelectItem value="24h">24 hours before</SelectItem>
-                    <SelectItem value="custom">Custom timing</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Connected Calendars</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-between p-4 border rounded-lg">
-                <div className="flex items-center gap-x-3">
-                  <Calendar className="h-5 w-5 text-blue-600" />
-                  <div>
-                    <p className="font-medium">Google Calendar</p>
-                    <p className="text-sm text-muted-foreground">
-                      Connected and syncing
-                    </p>
-                  </div>
-                </div>
-                <Button variant="outline">Disconnect</Button>
-              </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>

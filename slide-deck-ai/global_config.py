@@ -102,19 +102,19 @@ class GlobalConfig:
 
     PPTX_TEMPLATE_FILES = {
         'Fancy': {
-            'file': 'pptx_templates/Aura.pptx',
+            'file': 'pptx_templates/Ion_Boardroom.pptx',
             'caption': 'Fancy'
         },
         'Financial': {
-            'file': 'pptx_templates/Financial.pptx',
+            'file': 'pptx_templates/Minimalist_sales_pitch.pptx',
             'caption': 'Financial'
         },
         'Futuristic': {
-            'file': 'pptx_templates/Futuristic.pptx',
+            'file': 'pptx_templates/Urban_monochrome.pptx',
             'caption': 'Futuristic'
         },
         'Universal': {
-            'file': 'pptx_templates/Universal.pptx',
+            'file': 'pptx_templates/Blank.pptx',
             'caption': 'Universal'
         },
     }

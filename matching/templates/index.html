@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crunchbase Funding Search</title>
+</head>
+<body>
+    <h1>Crunchbase Funding Search</h1>
+    <form method="POST">
+        <textarea name="text_input" rows="5" cols="50" placeholder="Enter keywords to search for relevant funding rounds (e.g., AI, healthcare, fintech...)">{{ text_input }}</textarea><br>
+        <button type="submit">Search Funding Rounds</button>
+    </form>
+    {% if funding_data %}
+        <h2>Raw API Response</h2>
+        <pre>{{ funding_data | tojson(indent=2) }}</pre>
+    {% endif %}
+</body>
+</html>

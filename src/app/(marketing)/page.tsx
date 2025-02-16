@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <div className="max-w-[988px] mx-auto w-full flex-1 flex flex-col lg:flex-row items-center justify-center p-4 gap-2">
       <div className="relative size-[230px] lg:size-[424px] mb-8 mr-5 lg:mb-0">
-      <Image src="/mascot.svg" alt="Mascot" fill />
+      <Image src="/rocket.png" alt="Mascot" fill />
       </div>
 
       <div className="flex flex-col items-center gap-y-8">

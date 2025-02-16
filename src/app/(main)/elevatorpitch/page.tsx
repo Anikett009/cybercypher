@@ -28,7 +28,7 @@ export default function DeckPage() {
                 <html>
                   <body style='margin:0;padding:0;border:0;'>
                     <iframe
-                      src='http://localhost:8501'
+                      src='http://localhost:8502'
                       width='100%'
                       height='100%'
                       style='border: none; display: block; width: 100vw; height: 100vh;'

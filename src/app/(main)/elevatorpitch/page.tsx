@@ -20,23 +20,24 @@ export default function DeckPage() {
             <CardTitle>AI-Powered Elevator Pitch Generator</CardTitle>
           </CardHeader>
           <CardContent>
-            <iframe
-              width="100%"
-              height="900px"
-              className="rounded-md border"
-              srcDoc={`
-                <html>
-                  <body style='margin:0;padding:0;border:0;'>
-                    <iframe
-                      src='http://localhost:8502'
-                      width='100%'
-                      height='100%'
-                      style='border: none; display: block; width: 100vw; height: 100vh;'
-                    ></iframe>
-                  </body>
-                </html>
-              `}
-            />
+          <iframe
+  width="100%"
+  height="900px"
+  className="rounded-md border"
+  srcDoc={`
+    <html>
+      <body style='margin:0;padding:0;border:0;'>
+        <iframe
+          src='http://localhost:8501'
+          width='100%'
+          height='100%'
+          style='border: none; display: block; width: 100vw; height: 100vh;'
+          allow="microphone"
+        ></iframe>
+      </body>
+    </html>
+  `}
+/>
           </CardContent>
         </Card>
       </Tabs>

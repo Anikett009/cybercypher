@@ -14,23 +14,80 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# 🚀 Startup Intelligence Hub
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Overview
+**VenturePilot** is an AI-powered platform designed to help entrepreneurs streamline their startup journey. It automates critical business processes, from idea validation and financial forecasting to investor matching and pitch deck analysis. Additionally, it includes **email and calendar automation** to enhance business communications.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🌟 Features
 
-## Learn More
+### 🔍 **Idea Validation and Research**
+- Enter key details (Startup Name, Problem Statement, Target Audience, Business Model).
+- AI generates:
+  - **Viability Score** – A feasibility rating of the idea.
+  - **Market & Competitor Analysis** – Industry trends and competitor insights.
+  - **Business Recommendations** – Actionable strategy tips.
+  - **SWOT Analysis** – Strengths, Weaknesses, Opportunities, and Threats.
 
-To learn more about Next.js, take a look at the following resources:
+### 📊 **Financial Projection & Expense Breakdown**
+- Generate **automated financial forecasts** including:
+  - Revenue projections with growth analysis.
+  - Expense breakdowns by category.
+  - Essential financial documents required at each stage.
+- Helps founders plan finances efficiently and mitigate risks.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 🤝 **Investor-Founder Matching**
+- Uses **Crunchbase API** to:
+  - Identify investors who have previously funded startups in the same industry.
+  - Display investment history and amounts raised.
+  - Prioritize investors most likely to be interested in the startup.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 📑 **Pitch Deck Generator**
+- Automatically generates a structured **pitch deck** with:
+  - Key business highlights.
+  - Market insights and revenue projections.
+  - Competitive analysis and financial forecasts.
 
-## Deploy on Vercel
+### 🎤 **Voice-to-Text Pitch Deck Analysis**
+- Uses AI-powered **speech analysis** to:
+  - Convert speech to text during a pitch.
+  - Perform **sentiment analysis** on tone and confidence.
+  - Provide actionable feedback on how to **improve pitch delivery**.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 📬 **Email and Calendar Automation**
+- **Email Automation**:
+  - Send emails instantly from the platform.
+  - Create and save reusable email templates.
+- **Meeting Scheduling**:
+  - Sync with calendars, set availability, and automate reminders.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🚀 Getting Started
+### **1️⃣ Installation**
+Ensure you have **Node.js**, **Python**, and **Streamlit** installed.
+```bash
+npm install
+pip install -r requirements.txt
+```
+
+### **2️⃣ Running the Application**
+To start the full platform, open **multiple terminals** and run:
+
+#### **Frontend (Next.js Application)**
+```bash
+npm run dev
+```
+
+#### **Backend Processes**
+Run these commands in **separate terminals**:
+```bash
+streamlit run app.py  # Pitch Deck Generation
+python investor.py    # Investor-Founder Matching
+streamlit run pitchsound.py  # Voice-to-Text Pitch Deck Analysis
+```
+
+---
+
+
+

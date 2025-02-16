@@ -30,18 +30,18 @@ export const Sidebar = ({ className }: Props) => {
         
         <SidebarItem
           label={"Idea Validation"}
-          iconSrc={"/leaderboard.svg"}
+          iconSrc={"/bulb.png"}
           href={"/validation"}
         />
         <SidebarItem
           label={"Pitch Deck Builder"}
-          iconSrc={"/quests.svg"}
+          iconSrc={"/deck.png"}
           href={"/deck"}
         />
-        <SidebarItem label={"Matching"} iconSrc={"/shop.svg"} href={"/match"} />
-        <SidebarItem label = {"Financial Planning"} iconSrc={"/word.svg"} href={"/planning"}/>
-        <SidebarItem label={"Pitch Analyser"} iconSrc={"/learn.svg"} href={"/elevatorpitch"} />
-        <SidebarItem label={"Automation"} iconSrc={"/learn.svg"} href={"/automation"} />
+        <SidebarItem label={"Matching"} iconSrc={"/match.png"} href={"/match"} />
+        <SidebarItem label = {"Financial Planning"} iconSrc={"/planning.png"} href={"/planning"}/>
+        <SidebarItem label={"Pitch Analyser"} iconSrc={"/analyser.png"} href={"/elevatorpitch"} />
+        <SidebarItem label={"Automation"} iconSrc={"/automation.png"} href={"/automation"} />
       
       </div>
       <div className="p-4">

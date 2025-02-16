@@ -1,20 +1,7 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-# 🚀 Startup Intelligence Hub
+# 🚀 VenturePilot
 
 ## Overview
 **VenturePilot** is an AI-powered platform designed to help entrepreneurs streamline their startup journey. It automates critical business processes, from idea validation and financial forecasting to investor matching and pitch deck analysis. Additionally, it includes **email and calendar automation** to enhance business communications.
